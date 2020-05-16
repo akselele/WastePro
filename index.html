@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="price.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -90,7 +91,7 @@
     </div>
 
     <!-- Container (Services Sectie) -->
-    <div class="container-fluid text-center">
+    <div id="services" class="container-fluid text-center">
         <h2>SERVICES</h2>
         <h4>What we do</h4>
         <br>
@@ -129,7 +130,7 @@
     </div>
 
     <!-- Container (Team Sectie) -->
-    <div id="team" class="container-fluid text-center bg-grey">
+    <div class="container-fluid text-center bg-grey">
         <h2>How does it work?</h2><br>
         <div class="row text-center slideanim">
             <span><img id="working" src="working.jpeg" class="img-fluid" height="500" width="850"></span>
@@ -141,20 +142,17 @@
         <h2>Some data</h2><br>
         <div class="row text-center slideanim">
             <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be/statistics/386440/number-of-enterprises-in-waste-collection-in-latvia/"
-                rel="nofollow"><img
-                    src="img/statistic_id386440_latvia_-enterprises-collecting-waste-2008-2018.png"
+                rel="nofollow"><img src="img/statistic_id386440_latvia_-enterprises-collecting-waste-2008-2018.png"
                     alt="Statistic: Number of enterprises in the waste collection sector in Latvia from 2008 to 2018 | Statista"
-                    style="width: 100%; height: auto !important; max-width:1000px;-ms-interpolation-mode: bicubic;"/></a>
+                    style="width: 100%; height: auto !important; max-width:1000px;-ms-interpolation-mode: bicubic;" /></a>
 
-                <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be/statistics/633586/packaging-waste-recycling-latvia/"
-                rel="nofollow"><img
-                    src="img/statistic_id633586_recycling-of-packaging-waste-in-latvia-2009-2016.png"
+            <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be/statistics/633586/packaging-waste-recycling-latvia/"
+                rel="nofollow"><img src="img/statistic_id633586_recycling-of-packaging-waste-in-latvia-2009-2016.png"
                     alt="Statistic: Recycling rate of packaging waste in Latvia from 2009 to 2016  | Statista"
                     style="width: 100%; height: auto !important; max-width:1000px;-ms-interpolation-mode: bicubic;" /></a>
 
-                <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be/statistics/632934/municipal-waste-recycling-latvia/"
-                rel="nofollow"><img
-                    src="img/statistic_id632934_recycling-of-municipal-waste-in-latvia-2009-2017.png"
+            <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be/statistics/632934/municipal-waste-recycling-latvia/"
+                rel="nofollow"><img src="img/statistic_id632934_recycling-of-municipal-waste-in-latvia-2009-2017.png"
                     alt="Statistic: Recycling rate of municipal waste in Latvia from 2009 to 2017  | Statista"
                     style="width: 100%; height: auto !important; max-width:1000px;-ms-interpolation-mode: bicubic;" /></a><br />Find
             more statistics at <a href="https://www-statista-com.kuleuven.ezproxy.kuleuven.be"
@@ -176,23 +174,41 @@
                         <h1>Without donation</h1>
                     </div>
                     <div class="panel-footer">
-                        <h3>€0.00</h3>
+                        <h3>€100.00</h3>
                         <h4>per brick</h4>
+                        <h3 id="total">€0.00</h3>
+                        <h4>total</h4>
+                        <label for="amount">Amount of bricks</label>
+                        <input id="noDisc" name="amount" type="number" min="1" onchange="funcNoDisc()" />
+
+                        <br>
+                        <button class="btn btn-lg">Order</button>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 col-xs-12">
                 <div class="panel panel-default text-center">
                     <div class="panel-heading">
-                        <h1>With donation</h1>
+                        <h1>With plastic deposit</h1>
+                        <p>We will require a proof of deposit in order to proceed a purchase with a discounted price.
+                        </p>
+                        <p>15% discount</p>
                     </div>
                     <div class="panel-footer">
-                        <h3>€0.00</h3>
+                        <h3>€85.00</h3>
                         <h4>per brick</h4>
+                        <h3 id="discountTotal">€0.00</h3>
+                        <h4>total</h4>
+                        <label for="amount">Amount of bricks</label>
+                        <input id="discount" name="amount" type="number" min="1" onchange="funcDisc()" />
+                        <br>
+                        <button class="btn btn-lg">Order</button>
+
                     </div>
                 </div>
             </div>
         </div>
+        <h4>For customized blocks, please contact us below.</h4>
     </div>
 
     <!-- Container (Contact Section) -->
@@ -231,18 +247,18 @@
     </div>
     </div>
 
-    <!-- Voeg google maps toe (Verwijdert, aangezien je sinds kort verplicht bent creditcard gegevens in te geven om verder gebruik te mogen blijven maken van de google maps api's)-->
-    <!--<div id="googleMap" style="height:400px;width:100%;"></div>
+     
+    <div id="googleMap" style="height:400px;width:100%;"></div>
 <script>
 function myMap() {
-var myCenter = new google.maps.LatLng(51.0143554, 4.480169);
-var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:false, mapTypeId:google.maps.MapTypeId.ROADMAP};
+var myCenter = new google.maps.LatLng(56.946285,24.105078);
+var mapProp = {center:myCenter, zoom:12, scrollwheel:false, draggable:true, mapTypeId:google.maps.MapTypeId.ROADMAP};
 var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 var marker = new google.maps.Marker({position:myCenter});
 marker.setMap(map);
 }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key= AIzaSyA5Alf8ytPff3feOgJcXs0VaoF93yLO2zQ &callback=myMap"></script> -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA091O3xnyKwjrGBqVsZ9X1FXILu7GZqzc&callback=myMap"></script>
 
     <footer class="container-fluid text-center">
         <a href="#myPage" title="To Top">
